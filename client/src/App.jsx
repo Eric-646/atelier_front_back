@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
-import "./App.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+// import "./App.css";
 import Sidebar from "./components/sidebar";
 import Ticket from "./pages/Ticket";
 import PageError from "./components/pageError";
@@ -9,6 +10,7 @@ import Connexion from "./pages/Authentification/Connexion";
 import Inscription from "./pages/Authentification/Inscription";
 import Deconnexion from "./pages/Authentification/Deconnexion";
 import Tickets from "./pages/Tickets";
+
 
 const router = createBrowserRouter([
   {
@@ -27,8 +29,32 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
-  return <RouterProvider router={router} />;
+// function App() {
+
+const App = () => {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    axios.get('/api/data')
+      .then((response) => {
+        setData(response.data.message);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données', error);
+      });
+  }, []); 
+
+
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>{data}</h1>
+      </header>
+      <RouterProvider router={router} />;
+    </div>
+  );
+
 }
 
 export default App;
