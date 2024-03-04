@@ -1,4 +1,4 @@
-
+require("dotenv").config();
 
 
 const express = require("express");
@@ -17,7 +17,7 @@ app.use("/ticket" , ticket);
 const PORT = process.env.PORT || 3000;
 
 mongoose.connect(
-    "mongodb+srv://eric_64:KB3RjBO3CG5DmTbG@atelier.kitzc83.mongodb.net/?retryWrites=true&w=majority&appName=atelier",
+    process.env.MONGO_URI,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
 
