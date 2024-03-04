@@ -114,10 +114,10 @@ export default function Sidebar() {
               </ul>
             </li>
             <li className="sidebar-item">
-              <a href="#" className="sidebar-link">
+              <NavLink to="/notifications" className="sidebar-link">
                 <i className="lni lni-popup"></i>
                 <span>Notification</span>
-              </a>
+              </NavLink>
             </li>
             <li className="sidebar-item">
               <a href="#" className="sidebar-link">

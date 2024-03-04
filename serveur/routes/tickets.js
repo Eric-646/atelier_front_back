@@ -2,8 +2,8 @@
 const express=require('express');
 
 const router=express.Router();
+// const Ticket=require('./models/ticket');
 const Ticket=require('../models/ticket');
-
 
 router.get('/tickets', async(req,res)=>{
     try{

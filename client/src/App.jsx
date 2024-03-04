@@ -10,6 +10,7 @@ import Connexion from "./pages/Authentification/Connexion";
 import Inscription from "./pages/Authentification/Inscription";
 import Deconnexion from "./pages/Authentification/Deconnexion";
 import Tickets from "./pages/Tickets";
+import Notification from "./pages/Notification";
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: "connexion", element: <Connexion /> },
       { path: "inscription", element: <Inscription /> },
       { path: "deconnexion", element: <Deconnexion /> },
+      { path: "notifications", element: <Notification /> },
     ],
   },
 ]);
