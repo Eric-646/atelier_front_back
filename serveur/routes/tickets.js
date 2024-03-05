@@ -2,9 +2,10 @@
 const express=require('express');
 
 const router=express.Router();
-// const Ticket=require('./models/ticket');
-const Ticket=require('../models/ticket');
 
+const Ticket=require('../models/tickets');
+
+// Read - Récupérer tous les tickets
 router.get('/tickets', async(req,res)=>{
     try{
         const tickets=await db.collection('tickets').find().toArray();
@@ -26,6 +27,7 @@ router.get('/ticket/:id', async(req,res)=>{
     }
 })
 
+// Create - Ajouter un ticket
 router.post('/ticket', async(req,res)=>{
     
     try{
@@ -37,7 +39,7 @@ router.post('/ticket', async(req,res)=>{
         throw err;
     }
 })
-
+// Update - Mettre à jour un ticket
 router.put('/ticket/:id', async(req,res)=>{
     try{
         const id= parseInt(req.params.id);
@@ -49,7 +51,7 @@ router.put('/ticket/:id', async(req,res)=>{
         throw err;
     }
 })
-
+// Update - Mettre à jour un ticket
 router.patch('/ticket/:id', async(req,res)=>{
     try{
         const id= parseInt(req.params.id);
@@ -61,7 +63,7 @@ router.patch('/ticket/:id', async(req,res)=>{
         throw err;
     }
 })
-
+// Delete - Supprimer un ticket
 router.delete('/ticket/:id', async(req,res)=>{
     try{
         const id= parseInt(req.params.id);

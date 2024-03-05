@@ -77,7 +77,7 @@ export default function Sidebar() {
                 aria-controls="multi"
               >
                 <i className="lni lni-layout"></i>
-                <span>Multi Level</span>
+                <span>Ticket</span>
               </a>
               <ul
                 id="multi"
@@ -93,21 +93,21 @@ export default function Sidebar() {
                     aria-expanded="false"
                     aria-controls="multi-two"
                   >
-                    Two Links
+                    Rôle
                   </a>
                   <ul
                     id="multi-two"
                     className="sidebar-dropdown list-unstyled collapse"
                   >
                     <li className="sidebar-item">
-                      <a href="#" className="sidebar-link">
-                        Link 1
-                      </a>
+                      <NavLink to="/magasins" className="sidebar-link">
+                        Magasins
+                      </NavLink>
                     </li>
                     <li className="sidebar-item">
-                      <a href="#" className="sidebar-link">
-                        Link 2
-                      </a>
+                      <NavLink to="/atelier" className="sidebar-link">
+                        Atelier
+                      </NavLink>
                     </li>
                   </ul>
                 </li>

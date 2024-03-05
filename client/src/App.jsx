@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import "./App.css";
+
 import Sidebar from "./components/sidebar";
 import Ticket from "./pages/Ticket";
 import PageError from "./components/pageError";
@@ -11,6 +11,8 @@ import Inscription from "./pages/Authentification/Inscription";
 import Deconnexion from "./pages/Authentification/Deconnexion";
 import Tickets from "./pages/Tickets";
 import Notification from "./pages/Notification";
+import Atelier from "./pages/Atelier";
+import Magasins from "./pages/Magasins";
 
 
 const router = createBrowserRouter([
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
       { path: "connexion", element: <Connexion /> },
       { path: "inscription", element: <Inscription /> },
       { path: "deconnexion", element: <Deconnexion /> },
+      { path: "atelier", element: <Atelier /> },
+      { path: "magasins", element: <Magasins /> },
       { path: "notifications", element: <Notification /> },
     ],
   },
@@ -53,7 +57,7 @@ const App = () => {
       <header className="App-header">
         <h1>{data}</h1>
       </header>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </div>
   );
 
