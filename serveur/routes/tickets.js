@@ -5,30 +5,8 @@ const router=express.Router();
 
 const Ticket=require('../models/tickets');
 
-// Read - Récupérer tous les tickets
-router.get('/tickets', async(req,res)=>{
-    try{
-        const tickets=await db.collection('tickets').find().toArray();
-        res.status(200).json(tickets);
-    }catch(err){
-        console.log(err);
-        throw err;
-    }
-})
-
-router.get('/ticket/:id', async(req,res)=>{
-    const id= parseInt(req.params.id);
-    try{
-        const ticket=await db.collection('tickets').findOne({number:id});
-        res.status(200).json(ticket);
-    }catch(err){
-        console.log(err);
-        throw err;
-    }
-})
-
 // Create - Ajouter un ticket
-router.post('/ticket', async(req,res)=>{
+router.post('/', async(req,res)=>{
     
     try{
         const ticketData=req.body;
@@ -39,41 +17,61 @@ router.post('/ticket', async(req,res)=>{
         throw err;
     }
 })
-// Update - Mettre à jour un ticket
-router.put('/ticket/:id', async(req,res)=>{
+// Read - Récupérer tous les tickets
+router.get('/', async(req,res)=>{
     try{
-        const id= parseInt(req.params.id);
-        const replacementTicket=req.body;
-        const ticket=await db.collection('tickets').replaceOne({id},replacementTicket);
+        const tickets=await db.collection('tickets').find().toArray();
+        res.status(200).json(tickets);
+    }catch(err){
+        console.log(err);
+        throw err;
+    }
+})
+
+router.get('/:ticketNumber', async(req,res)=>{
+    const id= parseInt(req.params.id);
+    try{
+        const ticket=await db.collection('tickets').findOne({number:id});
         res.status(200).json(ticket);
     }catch(err){
         console.log(err);
         throw err;
     }
 })
+
 // Update - Mettre à jour un ticket
-router.patch('/ticket/:id', async(req,res)=>{
-    try{
-        const id= parseInt(req.params.id);
-        const update=req.body;
-        const ticket=await db.collection('tickets').updateOne({id},{$set:update}, {upsert:true});
-        res.status(200).json(ticket);
+router.put('/:ticketNumber', async(req,res)=>{
+ const {ticketNumber}=req.params;
+ try{
+ const updatedTicket=await Ticket.findOneAndUpdate({ticketNumber},req.body,{res.status(200).json(updatedTicket)});
     }catch(err){
-        console.log(err);
-        throw err;
+        console.error('Erreur lors de la mise à jour du ticket',error);
+        res.status(500).json({error:'Erreur serveur'});
     }
 })
+// // Update - Mettre à jour un ticket
+// router.patch('/ticket/:id', async(req,res)=>{
+//     try{
+//         const id= parseInt(req.params.id);
+//         const update=req.body;
+//         const ticket=await db.collection('tickets').updateOne({id},{$set:update}, {upsert:true});
+//         res.status(200).json(ticket);
+//     }catch(err){
+//         console.log(err);
+//         throw err;
+//     }
+// })
 // Delete - Supprimer un ticket
-router.delete('/ticket/:id', async(req,res)=>{
+router.delete('/:ticketNumber', async(req,res)=>{
+  const {ticketNumber}=req.params;
     try{
-        const id= parseInt(req.params.id);
-        const ticket=await db.collection('tickets').deleteOne({id});
-        res.status(200).json(ticket);
+  await Ticket.findOneAndDelete({ticketNumber});
+  res.status(200).json({message:'Ticket supprimé avec succès'});
     }catch(err){
-        console.log(err);
-        throw err;
+        console.error('Erreur lors de la suppression du ticket',error);
+        res.status(500).json({error:'Erreur serveur'});
     }
-})
+})   
 
 
 module.exports=router;

@@ -35,7 +35,7 @@ export default function Sidebar() {
             <li className="sidebar-item">
               <NavLink to="/tickets" className="sidebar-link">
                 <i className="lni lni-ticket"></i>
-                <span>Tickets</span>
+                <span>Ticket</span>
               </NavLink>
             </li>
             <li className="sidebar-item">
@@ -47,8 +47,8 @@ export default function Sidebar() {
                 aria-expanded="false"
                 aria-controls="auth"
               >
-                <i className="lni lni-protection"></i>
-                <span>Authentification</span>
+                <i className="lni lni-ticket"></i>
+                <span>Tickets</span>
               </a>
               <ul
                 id="auth"
@@ -56,67 +56,22 @@ export default function Sidebar() {
                 data-bs-parent="#sidebar"
               >
                 <li className="sidebar-item">
-                  <NavLink to="/connexion" className="sidebar-link">
-                    Connexion
+                  <NavLink to="/magasins" className="sidebar-link">
+                    Magasins
                   </NavLink>
                 </li>
                 <li className="sidebar-item">
-                  <NavLink to="/inscription" className="sidebar-link">
-                    Inscription
+                  <NavLink to="/atelier" className="sidebar-link">
+                    Atelier
                   </NavLink>
                 </li>
               </ul>
             </li>
+
             <li className="sidebar-item">
-              <a
-                href="#"
-                className="sidebar-link collapsed has-dropdown"
-                data-bs-toggle="collapse"
-                data-bs-target="#multi"
-                aria-expanded="false"
-                aria-controls="multi"
-              >
-                <i className="lni lni-layout"></i>
-                <span>Ticket</span>
-              </a>
-              <ul
-                id="multi"
-                className="sidebar-dropdown list-unstyled collapse"
-                data-bs-parent="#sidebar"
-              >
-                <li className="sidebar-item">
-                  <a
-                    href="#"
-                    className="sidebar-link collapsed"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#multi-two"
-                    aria-expanded="false"
-                    aria-controls="multi-two"
-                  >
-                    Rôle
-                  </a>
-                  <ul
-                    id="multi-two"
-                    className="sidebar-dropdown list-unstyled collapse"
-                  >
-                    <li className="sidebar-item">
-                      <NavLink to="/magasins" className="sidebar-link">
-                        Magasins
-                      </NavLink>
-                    </li>
-                    <li className="sidebar-item">
-                      <NavLink to="/atelier" className="sidebar-link">
-                        Atelier
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li className="sidebar-item">
-              <NavLink to="/notifications" className="sidebar-link">
-                <i className="lni lni-popup"></i>
-                <span>Notification</span>
+              <NavLink to="/authentification" className="sidebar-link">
+                <i className="lni lni-protection"></i>
+                <span>Authentification</span>
               </NavLink>
             </li>
             <li className="sidebar-item">

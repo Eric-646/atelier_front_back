@@ -46,7 +46,7 @@ export default function Magasins() {
     const newRow = {
       ticketNumber: formData.ticketNumber,
       dateDelivered: "",
-      delai: formData.delai + " jours",
+      delai: "",
       statut: "En cours",
       categorie: "",
       dateCreated: formattedDate,

@@ -6,14 +6,11 @@ import Sidebar from "./components/sidebar";
 import Ticket from "./pages/Ticket";
 import PageError from "./components/pageError";
 import Profil from "./pages/Profil";
-import Connexion from "./pages/Authentification/Connexion";
-import Inscription from "./pages/Authentification/Inscription";
 import Deconnexion from "./pages/Authentification/Deconnexion";
+import Authentification from "./pages/Authentification/Authentification";
 import Tickets from "./pages/Tickets";
-import Notification from "./pages/Notification";
 import Atelier from "./pages/Atelier";
 import Magasins from "./pages/Magasins";
-
 
 const router = createBrowserRouter([
   {
@@ -25,12 +22,10 @@ const router = createBrowserRouter([
       { path: "/tickets", element: <Tickets /> },
       { path: "ticket/:id", element: <Ticket /> },
       { path: "profil", element: <Profil /> },
-      { path: "connexion", element: <Connexion /> },
-      { path: "inscription", element: <Inscription /> },
       { path: "deconnexion", element: <Deconnexion /> },
       { path: "atelier", element: <Atelier /> },
       { path: "magasins", element: <Magasins /> },
-      { path: "notifications", element: <Notification /> },
+      { path: "authentification", element: <Authentification /> },
     ],
   },
 ]);
@@ -38,19 +33,18 @@ const router = createBrowserRouter([
 // function App() {
 
 const App = () => {
-  const [data, setData] = useState('');
+  const [data, setData] = useState("");
 
   useEffect(() => {
-    axios.get('/api/data')
+    axios
+      .get("/api/data")
       .then((response) => {
         setData(response.data.message);
       })
       .catch((error) => {
-        console.error('Erreur lors de la récupération des données', error);
+        console.error("Erreur lors de la récupération des données", error);
       });
-  }, []); 
-
-
+  }, []);
 
   return (
     <div className="App">
@@ -60,7 +54,6 @@ const App = () => {
       <RouterProvider router={router} />
     </div>
   );
-
-}
+};
 
 export default App;

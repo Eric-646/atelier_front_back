@@ -3,6 +3,7 @@ import { useState } from "react";
 // import TableTicketList from "../components/TableTicketList";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+// import { set } from "mongoose";
 // import axios from "axios";
 // import tickets from "../../../serveur/models/tickets";
 
@@ -78,7 +79,7 @@ export default function Tickets() {
   const newRow = {
     ticketNumber: formData.ticketNumber,
     dateDelivered: formattedModifiedDate,
-    delai: formData.delai + " jours",
+    delai: formData.delai,
     statut: formData.statut,
     categorie: formData.categorie,
     dateCreated: "01/01/2024",
@@ -87,6 +88,7 @@ export default function Tickets() {
     origineDevis: "Devis atelier",
   };
   setTicketData([...ticketData, newRow]);
+
 
   setFormData({
     ticketNumber: "",
@@ -100,6 +102,43 @@ export default function Tickets() {
     origineDevis: "",
   });
 }
+const selectRow = (row) => {
+  setFormData(row);
+}
+
+const initialformData = {
+  ticketNumber: "",
+  date: "",
+  delai: "",
+  statut: "",
+  categorie: "",
+  dateCreated: "",
+  dateModified: "",
+  devis: "",
+  origineDevis: "",
+};
+
+const updateRow = () => {
+  const isRowExists = ticketData.some((item) => item.ticketNumber === formData.ticketNumber);
+  if (isRowExists) {
+    const updatedData = ticketData.map((item) => 
+       item.ticketNumber === formData.ticketNumber ? formData : item
+    );
+    setTicketData(updatedData);
+  } else {
+    setTicketData([...ticketData, formData]);
+  }
+  setFormData(initialformData);
+}
+
+
+
+const deleteRow = () => {
+  const updatedData = ticketData.filter((item) => item.ticketNumber !== formData.ticketNumber);
+  setTicketData(updatedData);
+  setFormData(initialformData);
+};
+
 
   return (
     <div className="main p-3">
@@ -166,9 +205,19 @@ export default function Tickets() {
             <option value="En cours">En cours</option>
           </Form.Select>
         </Form.Group>
+       
         <Button variant="primary" type="button" onClick={addRow}>
           Valider
+        </Button>{" "}
+      
+        <Button variant="info" type="button" onClick={updateRow}>
+          Modifier
+        </Button>{" "}
+      
+        <Button variant="danger" type="button" onClick={deleteRow}>
+          Supprimer
         </Button>
+   
 
         <Table striped bordered hover>
           <thead>
@@ -186,7 +235,7 @@ export default function Tickets() {
           </thead>
           <tbody>
             {ticketData.map((row) => (
-              <tr key={row.number}>
+              <tr key={row.ticketNumber} onClick={() => selectRow(row)}>
                 <td>{row.ticketNumber}</td>
                 <td>{row.dateDelivered}</td>
                 <td>{row.delai}</td>

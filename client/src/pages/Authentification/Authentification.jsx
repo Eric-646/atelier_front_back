@@ -1,6 +1,7 @@
 import { useState } from "react";
+import "./authentification.css";
 
-export default function Inscription() {
+export default function Authentification() {
   let [authMode, setAuthMode] = useState("signin");
 
   const changeAuthMode = () => {
@@ -11,7 +12,7 @@ export default function Inscription() {
     return (
       <div className="main p-3">
         <div className="text-center">
-          <h1>Connexion</h1>
+          <h1>Authentification</h1>
         </div>
         <div className="Auth-form-container p-3">
           <form className="Auth-form">
