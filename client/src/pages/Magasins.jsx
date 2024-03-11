@@ -34,6 +34,34 @@ export default function Magasins() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const createTicket = () => {
+    const newTicket = {
+      ticketNumber: formData.ticketNumber,
+      dateDelivered: formData.dateDelivered,
+      delai: formData.delai,
+      statut: formData.statut,
+      categorie: formData.categorie,
+      dateCreated: formData.dateCreated,
+      dateModified: formData.dateModified,
+      devis: formData.devis,
+      origineDevis: formData.origineDevis,
+    };
+
+    fetch("http://localhost:3000/api/createTicket", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTicket),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Ticket créé avec succès :", data);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la création du ticket :", error);
+      });
+  };
   const addRow = () => {
     const currentDate = new Date();
     const formattedDate =
@@ -68,6 +96,8 @@ export default function Magasins() {
       devis: "",
       origineDevis: "",
     });
+
+    createTicket();
   };
 
   return (

@@ -7,7 +7,7 @@ import Ticket from "./pages/Ticket";
 import PageError from "./components/pageError";
 import Profil from "./pages/Profil";
 import Deconnexion from "./pages/Authentification/Deconnexion";
-import Authentification from "./pages/Authentification/Authentification";
+import Connexion from "./components/connexion";
 import Tickets from "./pages/Tickets";
 import Atelier from "./pages/Atelier";
 import Magasins from "./pages/Magasins";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       { path: "deconnexion", element: <Deconnexion /> },
       { path: "atelier", element: <Atelier /> },
       { path: "magasins", element: <Magasins /> },
-      { path: "authentification", element: <Authentification /> },
+      { path: "connexion", element: <Connexion /> },
     ],
   },
 ]);

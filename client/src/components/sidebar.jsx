@@ -69,7 +69,7 @@ export default function Sidebar() {
             </li>
 
             <li className="sidebar-item">
-              <NavLink to="/authentification" className="sidebar-link">
+              <NavLink to="/connexion" className="sidebar-link">
                 <i className="lni lni-protection"></i>
                 <span>Authentification</span>
               </NavLink>
