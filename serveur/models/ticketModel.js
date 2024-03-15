@@ -7,9 +7,10 @@ const ticketSchema = mongoose.Schema({
     statut: { type: String, required: false },
     categorie: { type: String, required: false },
     dateCreated: { type: String, required: false },
-    dateModified: { type: String, required: true },
+    dateModified: { type: String, required: false },
     devis: { type: String, required: false },
     origineDevis: { type: String, required: false }
-});
+}, { timestamps: true   }
+);
 
 module.exports = mongoose.model('Ticket', ticketSchema);

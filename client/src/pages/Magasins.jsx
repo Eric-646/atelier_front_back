@@ -47,7 +47,7 @@ export default function Magasins() {
       origineDevis: formData.origineDevis,
     };
 
-    fetch("http://localhost:3000/api/createTicket", {
+    fetch("http://localhost:3000/ticket", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

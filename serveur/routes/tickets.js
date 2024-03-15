@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const Ticket = require("../models/ticket");
+const Ticket = require("../models/ticketModel");
 const mongoose = require("mongoose");
 
 // Create - Ajouter un ticket
-router.post("/magasins/createTicket", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
+    console.log("Création du ticket :", req.body);
     const newTicket = new Ticket(req.body);
     await newTicket.save();
     res.status(201).json(newTicket);
@@ -16,7 +17,7 @@ router.post("/magasins/createTicket", async (req, res) => {
 });
 
 // Read - Récupérer tous les tickets
-router.get("/tickets", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const tickets = await Ticket.find();
     res.status(200).json(tickets);
