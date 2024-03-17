@@ -1,46 +1,33 @@
-const dotenv = require("dotenv");
-dotenv.config();
 const express = require("express");
 const app = express();
+const authRoutes = require("./routes/authRoutes");
+// const authMiddleware = require("./middleware/authMiddleware");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mongoose = require("mongoose");
 
-const ticketSchema = require("./models/ticketModel");
-const userSchema = require("./models/userModel");
+app.use(express.json());
+
 const home = require("./routes/home");
 const ticket = require("./routes/tickets");
 const user = require("./routes/user");
 const morgan = require("morgan");
 
 
-app.use(express.json());
-
-
-
-
-
-
-const PORT = process.env.PORT ||3000;
-
+const PORT = process.env.PORT || 5000;
 
 app.use(cors({ origin: "http://localhost:5173" }));
-app.use (morgan("combined"));
-
+app.use(morgan("combined"));
 
 app.use("/", home);
 app.use("/ticket", ticket);
 app.use("/connexion", user);
+app.use("/auth", authRoutes);
 
-
-
-
-const url = process.env.MONGODB_URI;
-console.log(process.env.MONGODB_URI);
-
-mongoose.connect(
-  url 
-);
+mongoose.connect(process.env.MONGODB_URI);
 const db = mongoose.connection;
 
 db.on(
@@ -53,4 +40,3 @@ db.once("open", () => {
     console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
   });
 });
-

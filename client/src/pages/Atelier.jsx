@@ -1,38 +1,17 @@
+import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import { useState } from "react";
 // import TableTicketList from "../components/TableTicketList";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+// import { use } from "../../../serveur/routes/home";
 // import { set } from "mongoose";
-// import axios from "axios";
+// import { set } from "mongoose";
+import axios from "axios";
+// import { set } from "mongoose";
 // import tickets from "../../../serveur/models/tickets";
 
 export default function Atelier() {
-  const [ticketData, setTicketData] = useState([
-    {
-      ticketNumber: 301101101,
-      date: "12/02/2024",
-      delai: "12 jours",
-      statut: "En cours",
-      categorie: "Horlogerie",
-      dateCreated: "01/01/2024",
-      dateModified: "01/01/2024",
-      devis: "oui",
-      origineDevis: "Devis atelier",
-    },
-    {
-      ticketNumber: 200589658,
-      date: "13/02/2024",
-      delai: "20 jours",
-      statut: "En cours",
-      categorie: "Bijoux",
-      dateCreated: "01/01/2024",
-      dateModified: "01/01/2024",
-      devis: "oui",
-      origineDevis: "Devis atelier",
-    },
-  ]);
-
+  const [ticketData, setTicketData] = useState([]);
   const [formData, setFormData] = useState({
     ticketNumber: "",
     date: "",
@@ -45,100 +24,167 @@ export default function Atelier() {
     origineDevis: "",
   });
 
+  useEffect(() => {
+    if (!formData.dateModified) {
+    setFormData((prevState) => ({
+      ...prevState,
+      dateModified: new Date().toLocaleDateString(),
+    }));
+  }
+  }, [formData]);
+
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/ticket");
+        setTicketData(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des tickets :", error);
+      }
+    };
+
+    fetchTickets();
+  }, []);
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const updateTicket = async () => {
+    try {
+      await axios.patch(
+        `http://localhost:3000/ticket/${formData.ticketNumber}`,formData);
+      setTicketData(ticketData.map((ticket) =>
+          ticket.ticketNumber === formData.ticketNumber ? formData : ticket
+        )
+      );
+      resetForm();
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du ticket :", error);
+    }
+  };
+
+  const selectRow = (row) => {
+    setFormData(row);
+  };
+
+  // const initialformData = {
+  //   ticketNumber: "",
+  //   date: "",
+  //   delai: "",
+  //   statut: "",
+  //   categorie: "",
+  //   dateCreated: "",
+  //   dateModified: "",
+  //   devis: "",
+  //   origineDevis: "",
+  // };
+
+  // const resetForm = () => {
+  //   setFormData(initialformData);
+  // };
+
+  const resetForm = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      ticketNumber: "",
+      date: "",
+      delai: "",
+      statut: "",
+      categorie: "",
+      dateCreated: "",
+      dateModified: new Date().toLocaleDateString(),
+      devis: "",
+      origineDevis: "",
+    }));
   };
 
   const handleselectchange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const addDays = (date, days) => {
-    const newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + days);
-    return newDate;
-  };
+  //   const addDays = (date, days) => {
+  //     const newDate = new Date(date);
+  //     newDate.setDate(newDate.getDate() + days);
+  //     return newDate;
+  //   };
 
-  const addRow = () => {
-    const currentDate = new Date();
-    const formattedDate =
-      currentDate.getDate() +
-      "/" +
-      (currentDate.getMonth() + 1) +
-      "/" +
-      currentDate.getFullYear();
-  
-      const modifiedDate = addDays(currentDate,parseInt(formData.delai));
-      const formattedModifiedDate =
-      modifiedDate.getDate() +
-      "/" +
-      (modifiedDate.getMonth() + 1) +
-      "/" +
-      modifiedDate.getFullYear();
+  //   const addRow = () => {
+  //     const currentDate = new Date();
+  //     const formattedDate =
+  //       currentDate.getDate() +
+  //       "/" +
+  //       (currentDate.getMonth() + 1) +
+  //       "/" +
+  //       currentDate.getFullYear();
 
-  const newRow = {
-    ticketNumber: formData.ticketNumber,
-    dateDelivered: formattedModifiedDate,
-    delai: formData.delai,
-    statut: formData.statut,
-    categorie: formData.categorie,
-    dateCreated: "01/01/2024",
-    dateModified: formattedDate,
-    devis: "oui",
-    origineDevis: "Devis atelier",
-  };
-  setTicketData([...ticketData, newRow]);
+  //       const modifiedDate = addDays(currentDate,parseInt(formData.delai));
+  //       const formattedModifiedDate =
+  //       modifiedDate.getDate() +
+  //       "/" +
+  //       (modifiedDate.getMonth() + 1) +
+  //       "/" +
+  //       modifiedDate.getFullYear();
 
+  //   const newRow = {
+  //     ticketNumber: formData.ticketNumber,
+  //     dateDelivered: formattedModifiedDate,
+  //     delai: formData.delai,
+  //     statut: formData.statut,
+  //     categorie: formData.categorie,
+  //     dateCreated: "01/01/2024",
+  //     dateModified: formattedDate,
+  //     devis: "oui",
+  //     origineDevis: "Devis atelier",
+  //   };
+  //   setTicketData([...ticketData, newRow]);
 
-  setFormData({
-    ticketNumber: "",
-    dateDelivered: "",
-    delai: "",
-    statut: "",
-    categorie: "",
-    dateCreated: "",
-    dateModified: "",
-    devis: "",
-    origineDevis: "",
-  });
-}
-const selectRow = (row) => {
-  setFormData(row);
-}
+  //   setFormData({
+  //     ticketNumber: "",
+  //     dateDelivered: "",
+  //     delai: "",
+  //     statut: "",
+  //     categorie: "",
+  //     dateCreated: "",
+  //     dateModified: "",
+  //     devis: "",
+  //     origineDevis: "",
+  //   });
+  // }
+  // const selectRow = (row) => {
+  //   setFormData(row);
+  // }
 
-const initialformData = {
-  ticketNumber: "",
-  date: "",
-  delai: "",
-  statut: "",
-  categorie: "",
-  dateCreated: "",
-  dateModified: "",
-  devis: "",
-  origineDevis: "",
-};
+  // const initialformData = {
+  //   ticketNumber: "",
+  //   date: "",
+  //   delai: "",
+  //   statut: "",
+  //   categorie: "",
+  //   dateCreated: "",
+  //   dateModified: "",
+  //   devis: "",
+  //   origineDevis: "",
+  // };
 
-const updateRow = () => {
-  const isRowExists = ticketData.some((item) => item.ticketNumber === formData.ticketNumber);
-  if (isRowExists) {
-    const updatedData = ticketData.map((item) => 
-       item.ticketNumber === formData.ticketNumber ? formData : item
-    );
-    setTicketData(updatedData);
-  } else {
-    setTicketData([...ticketData, formData]);
-  }
-  setFormData(initialformData);
-}
+  // const updateRow = () => {
+  //   const isRowExists = ticketData.some((item) => item.ticketNumber === formData.ticketNumber);
+  //   if (isRowExists) {
+  //     const updatedData = ticketData.map((item) =>
+  //        item.ticketNumber === formData.ticketNumber ? formData : item
+  //     );
+  //     setTicketData(updatedData);
+  //   } else {
+  //     setTicketData([...ticketData, formData]);
+  //   }
+  //   setFormData(initialformData);
+  // }
 
-
-
-const deleteRow = () => {
-  const updatedData = ticketData.filter((item) => item.ticketNumber !== formData.ticketNumber);
-  setTicketData(updatedData);
-  setFormData(initialformData);
-};
-
+  // const deleteRow = () => {
+  //   const updatedData = ticketData.filter((item) => item.ticketNumber !== formData.ticketNumber);
+  //   setTicketData(updatedData);
+  //   setFormData(initialformData);
+  // };
 
   return (
     <div className="main p-3">
@@ -157,7 +203,6 @@ const deleteRow = () => {
           />
           <Form.Text className="text-muted"></Form.Text>
         </Form.Group>
-
         <Form.Group className="mb-3" controlId="formBasicDelai">
           <Form.Label>Délai</Form.Label>
           <Form.Control
@@ -168,7 +213,6 @@ const deleteRow = () => {
             onChange={handleInputChange}
           />
         </Form.Group>
-
         <Form.Group className="mb-3" controlId="formBasicSelect">
           <Form.Label>Catégorie</Form.Label>
           <Form.Select
@@ -205,20 +249,15 @@ const deleteRow = () => {
             <option value="En cours">En cours</option>
           </Form.Select>
         </Form.Group>
-       
-        <Button variant="primary" type="button" onClick={addRow}>
+        {/* <Button variant="primary" type="button" onClick={addRow}>
           Valider
-        </Button>{" "}
-      
-        <Button variant="info" type="button" onClick={updateRow}>
+        </Button>{" "} */}
+        <Button variant="info" type="button" onClick={updateTicket}>
           Modifier
         </Button>{" "}
-      
-        <Button variant="danger" type="button" onClick={deleteRow}>
+        {/* <Button variant="danger" type="button" onClick={deleteRow}>
           Supprimer
-        </Button>
-   
-
+        </Button> */}
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -249,9 +288,7 @@ const deleteRow = () => {
             ))}
           </tbody>
         </Table>
-
       </Form>
     </div>
-  )
+  );
 }
-

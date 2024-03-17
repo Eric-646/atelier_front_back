@@ -1,22 +1,25 @@
 import { Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+// import { set } from "mongoose";
 
 export default function Magasins() {
-  const [ticketData, setTicketData] = useState([
-    {
-      ticketNumber: 301101101,
-      dateDelivered: "",
-      delai: "12 jours",
-      statut: "En cours",
-      categorie: "Horlogerie",
-      dateCreated: "01/01/2024",
-      dateModified: "01/01/2024",
-      devis: "oui",
-      origineDevis: "Devis atelier",
-    },
-  ]);
+  const [ticketData, setTicketData] = useState([]);
+
+  const fetchTickets = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/ticket");
+      const data = await response.json();
+      setTicketData(data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des tickets :", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTickets();
+  }, []);
 
   const [formData, setFormData] = useState({
     ticketNumber: "",
@@ -100,6 +103,51 @@ export default function Magasins() {
     createTicket();
   };
 
+  const deleteRow = () => {
+    const ticketNumberToDelete = formData.ticketNumber;
+    const updatedData = ticketData.filter(
+      (item) => item.ticketNumber !== ticketNumberToDelete
+    );
+    setTicketData(updatedData);
+
+    fetch(`http://localhost:3000/ticket/${ticketNumberToDelete}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Ticket supprimé avec succès :", data);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppression du ticket :", error);
+      });
+
+    setFormData({
+      ticketNumber: "",
+      dateDelivered: "",
+      delai: "",
+      statut: "",
+      categorie: "",
+      dateCreated: "",
+      dateModified: "",
+      devis: "",
+      origineDevis: "",
+    });
+  };
+
+  const handleRowClick = (ticket) => {
+    setFormData({
+      ticketNumber: ticket.ticketNumber,
+      dateDelivered: ticket.dateDelivered,
+      delai: ticket.delai,
+      statut: ticket.statut,
+      categorie: ticket.categorie,
+      dateCreated: ticket.dateCreated,
+      dateModified: ticket.dateModified,
+      devis: ticket.devis,
+      origineDevis: ticket.origineDevis,
+    });
+  };
+
   return (
     <div className="main p-3">
       <div className="text-center">
@@ -116,41 +164,44 @@ export default function Magasins() {
             onChange={handleInputChange}
           />
         </Form.Group>
-
         <Button variant="primary" type="button" onClick={addRow}>
           Valider
+        </Button>{" "}
+        <Button variant="danger" type="button" onClick={deleteRow}>
+          Supprimer
         </Button>
-
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>NuméroCodeBarre</th>
-              <th>Date livraison</th>
-              <th>Delai</th>
-              <th>Statut</th>
-              <th>Catégorie</th>
-              <th>Créé le</th>
-              <th>Modifié le</th>
-              <th>Devis</th>
-              <th>Origine devis</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ticketData.map((row) => (
-              <tr key={row.ticketNumber}>
-                <td>{row.ticketNumber}</td>
-                <td>{row.dateDelivered}</td>
-                <td>{row.delai}</td>
-                <td>{row.statut}</td>
-                <td>{row.categorie}</td>
-                <td>{row.dateCreated}</td>
-                <td>{row.dateModified}</td>
-                <td>{row.devis}</td>
-                <td>{row.origineDevis}</td>
+        <div className="table-container ">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>NuméroCodeBarre</th>
+                <th>Date livraison</th>
+                <th>Delai</th>
+                <th>Statut</th>
+                <th>Catégorie</th>
+                <th>Créé le</th>
+                <th>Modifié le</th>
+                <th>Devis</th>
+                <th>Origine devis</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {ticketData.map((row) => (
+                <tr key={row.ticketNumber} onClick={() => handleRowClick(row)}>
+                  <td>{row.ticketNumber}</td>
+                  <td>{row.dateDelivered}</td>
+                  <td>{row.delai}</td>
+                  <td>{row.statut}</td>
+                  <td>{row.categorie}</td>
+                  <td>{row.dateCreated}</td>
+                  <td>{row.dateModified}</td>
+                  <td>{row.devis}</td>
+                  <td>{row.origineDevis}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </Form>
     </div>
   );

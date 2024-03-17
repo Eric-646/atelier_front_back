@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Sidebar from "./components/sidebar";
-import Ticket from "./pages/Ticket";
+// import Ticket from "./pages/Ticket";
 import PageError from "./components/pageError";
 import Profil from "./pages/Profil";
 import Deconnexion from "./pages/Authentification/Deconnexion";
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 
     children: [
       { path: "/tickets", element: <Tickets /> },
-      { path: "ticket/:id", element: <Ticket /> },
+      // { path: "ticket/:id", element: <Ticket /> },
       { path: "profil", element: <Profil /> },
       { path: "deconnexion", element: <Deconnexion /> },
       { path: "atelier", element: <Atelier /> },

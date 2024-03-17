@@ -144,3 +144,7 @@ a.sidebar-link:hover {
     transform: rotate(45deg);
     transition: all .2s ease-out;
 }
+.table-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
